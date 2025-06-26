@@ -8,6 +8,7 @@ use App\Http\Controllers\PhotographerController;
 use App\Http\Controllers\PhotoSessionController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ListProductController;
 use App\Http\Controllers\ProductDiscountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -54,6 +55,8 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], f
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
     Route::delete('/product/{id}/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::get('/product/data', [ProductController::class, 'data'])->name('product.data');
+
+    Route::get('/list', [ListProductController::class, 'index']) ->name('list-product.list');
 
     Route::get('/discount', [ProductDiscountController::class, 'index'])->name('discount.index');
     Route::get('/discount/create', [ProductDiscountController::class, 'create'])->name('discount.create');

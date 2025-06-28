@@ -34,7 +34,7 @@
                             <h5 class="card-title">{{ $product->name }}</h5>
                             <p class="card-text">{{ \Str::limit($product->description, 100) }}</p>
                             <p class="card-text fw-bold text-primary">Rp. {{ number_format($product->price, 2, ',', '.') }}</p>
-                            <a href="#" class="btn btn-outline-primary">Detail</a>
+                            <a href="{{ url('/master/list/detail/' . $product->id) }}" class="btn btn-outline-primary">Detail</a>
                         </div>
                     </div>
                 </div>

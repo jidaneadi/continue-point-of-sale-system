@@ -56,7 +56,8 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], f
     Route::delete('/product/{id}/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::get('/product/data', [ProductController::class, 'data'])->name('product.data');
 
-    Route::get('/list', [ListProductController::class, 'index']) ->name('list-product.list');
+    Route::get('/list', [ListProductController::class, 'index']) ->name('list.index');
+    Route::get('/list/detail/{id}', [ListProductController::class, 'show_detail']) ->name('list.show_detail');
 
     Route::get('/discount', [ProductDiscountController::class, 'index'])->name('discount.index');
     Route::get('/discount/create', [ProductDiscountController::class, 'create'])->name('discount.create');

@@ -23,13 +23,18 @@
 @section('content-body')
 <section>
     <div class="row">
+
         <div class="d-felx justify-content-around">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
                 @foreach($products as $product)
                 <div class="col-6 col-md-3 mb-2">
-                    <div class="card h-100">
-                        <img src="{{ $product->photo ? Storage::url($product->photo) : 'https://via.placeholder.com/300x200' }}"
-                            class="card-img-top" alt="{{ $product->name }}">
+                    <div class="card" style="max-width: 250px; height: 100%;">
+                        <div class="ratio ratio-4x3">
+                            <img
+                                src="{{ $product->photo ? Storage::url($product->photo) : 'https://via.placeholder.com/300x200' }}"
+                                class="card-img-top object-fit-cover"
+                                alt="{{ $product->name }}">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ $product->name }}</h5>
                             <p class="card-text">{{ \Str::limit($product->description, 100) }}</p>

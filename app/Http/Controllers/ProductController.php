@@ -43,7 +43,7 @@ class ProductController extends Controller
             $photo = $request->file('photo');
 
             if ($request->hasFile('photo')) {
-                $tempPhoto = $photo->store('public/images/product');
+                $tempPhoto = $photo->store('/images/product');
 
                 $product = Product::create([
                     'product_category_id' => $request->product_category,
@@ -107,7 +107,7 @@ class ProductController extends Controller
                         ->get()
                         ->map(function($product) {
                             $product->id = Crypt::encrypt($product->id);
-                                    
+
                             return $product;
                         });
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('total', 10, 2);
             $table->text('link')->nullable();
+            $table->date('schedule')->nullable();
             $table->boolean('status');
             $table->timestamps();
 

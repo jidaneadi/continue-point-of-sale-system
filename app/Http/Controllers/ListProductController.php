@@ -8,6 +8,7 @@ use App\Models\PhotoSession;
 use App\Http\Requests\ShowListProductRequest;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Customer;
+use App\Models\Photographer;
 use App\Models\ProductDiscount;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -55,9 +56,9 @@ class ListProductController extends Controller
     public function store(StoreTransactionRequest $request)
     {
         try {
-            $isCash = $request->payment_method === 'cash';
-            $paidAt = $isCash ? now() : Carbon::now();
-
+            $isPayment = $request->payment_method ? $request->payment_method : 'cash';
+            $paidAt = $isPayment ? now() : Carbon::now();
+            $isCash =  $request->payment_method === 'cash';
             $totalPrice = 0;
 
             $id_user = Auth::user()->id;
@@ -65,9 +66,9 @@ class ListProductController extends Controller
             $transaction = Transaction::create([
                 'customer_id'    => $customer->id,
                 'total_price'    => 0,
-                'payment_status' => $isCash ? 'paid' : 'pending',
-                'payment_method' => $request->payment_method,
-                'paid_at'        => $isCash ? now() : null,
+                'payment_status' => $isPayment !== 'cash' && $isPayment !== ''  ? 'paid' : 'pending',
+                'payment_method' => $isPayment,
+                'paid_at'        => $isPayment ? now() : null,
             ]);
 
             foreach ($request->product_id as $index => $productId) {
@@ -80,30 +81,31 @@ class ListProductController extends Controller
                     ->first();
 
                 $discountAmount = $discount ? ($price * $discount->discount / 100) : 0;
-                $total =($price * $request->quantity) - $discountAmount;
+                $total = ($price * $request->quantity) - $discountAmount;
 
                 $totalPrice += $total;
+                $photographerId = Photographer::inRandomOrder()->value('id');
 
                 TransactionDetail::create([
                     'transaction_id'     => $transaction->id,
                     'product_id'         => $productId,
                     'photo_session_id'   => $request->photo_session_id[$index] ?? null,
                     'discount_id'        => $discount->id ?? null,
-                    // 'photographer_id'    => $request->photographer_id[$index] ?? null,
+                    'photographer_id'    => $photographerId,
                     'price'              => $price,
                     'total'              => $total,
+                    'schedule'           => $request->photo_date[$index] ?? null,
                     'status'             => false,
                 ]);
             }
 
             $transaction->update(['total_price' => $totalPrice]);
-            dd($request->all());
             if ($isCash) {
-                Alert::success('Sukses', 'Transaksi cash berhasil dibuat.');
-                return redirect()->route('transaction.index');
+                Alert::success('Sukses', 'Transaksi berhasil dibuat.');
+                return redirect()->route('list.index');
             } else {
-                Alert::success('Sukses', 'Transaksi cash berhasil dibuat.');
-                return redirect()->route('transaction.index');
+                Alert::success('Sukses', 'Transaksi berhasil dibuat.');
+                return redirect()->route('list.index');
             }
         } catch (\Exception $e) {
             Alert::error('Error', $e->getMessage());

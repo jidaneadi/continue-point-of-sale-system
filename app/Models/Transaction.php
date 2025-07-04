@@ -14,7 +14,7 @@ class Transaction extends Model
         'customer_id',
         'total_price',
         'payment_status',
-        'patment_method',
+        'payment_method',
         'paid_at',
     ];
 

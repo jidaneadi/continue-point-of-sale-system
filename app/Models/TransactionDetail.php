@@ -20,5 +20,6 @@ class TransactionDetail extends Model
         'total',
         'link',
         'status',
+        'schedule',
     ];
 }

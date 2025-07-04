@@ -133,11 +133,16 @@ default => 'Sort By'
 
                         <div class="row">
                             <div class="col-7">
-                                <label class="form-label">Pilih Tanggal</label>
-                                <input type="date" name="photo_date" class="form-control" required>
+                                <label class="form-label">{{ __('Pilih Tanggal*') }}</label>
+                                <input type="date" name="photo_date[]" class="form-control" required>
                             </div>
+                            @error('photo_date')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                             <div class="col-5">
-                                <label class="form-label">Jumlah</label>
+                                <label class="form-label">{{ __('Jumlah*') }}</label>
                                 <div class="d-flex">
                                     <button type="button" class="btn btn-outline-secondary" id="minusBtn">-</button>
                                     <input type="text" class="form-control text-center mx-1" name="quantity" id="counterValue" value="1" readonly>
@@ -145,8 +150,7 @@ default => 'Sort By'
                                 </div>
                             </div>
                         </div>
-
-                        <label class="form-label mt-2">Sesi Foto</label>
+                        <label class="form-label mt-2">{{ __('Sesi Foto*') }}</label>
                         <div class="row">
                             @foreach ($sessionPhoto as $sesi)
                             <div class="col-3">
@@ -156,11 +160,27 @@ default => 'Sort By'
                             </div>
                             @endforeach
                         </div>
-
                         <div class="d-flex justify-content-between align-items-center mt-2">
                             <label class="form-label mb-0">Total Harga</label>
-                            <p id="hargaProduk" type="hidden" class="text-muted small">Harga: Rp. 0</p>
+                            <!-- <p id="hargaProduk" type="hidden" class="text-muted small">Harga: Rp. 0</p> -->
                             <p id="totalHargaDisplay" class="mb-0 fw-bold text-end">Rp. 0 x 0 = Rp. 0</p>
+                        </div>
+
+                        <div class="row mb-1 mt-2">
+                            <label class="col-sm-6 form-label" for="payment_method">{{ __('Pilih Pembayaran* :') }}</label>
+                            <div class="col-sm-6">
+                                <select name="payment_method" id="payment_method" class="form-control @error('payment_method') is-invalid @enderror" required>
+                                    <option value="" disabled>Select Payment Method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="qris">QRIS</option>
+                                    <option value="gopay">GoPay</option>
+                                </select>
+                                @error('payment_method')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="modal-footer">
@@ -169,10 +189,6 @@ default => 'Sort By'
                         </div>
                     </form>
                 </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Masukkan Keranjang</button>
-                    <button type="button" class="btn btn-primary">Pesan Sekarang</button>
-                </div> -->
             </div>
         </div>
     </div>
@@ -186,7 +202,7 @@ default => 'Sort By'
 
         const keranjangButtons = document.querySelectorAll('.btn-keranjang');
         const modalProductName = document.getElementById('modalProductName');
-        const hargaProdukEl = document.getElementById('hargaProduk');
+        // const hargaProdukEl = document.getElementById('hargaProduk');
         const totalHargaEl = document.getElementById('totalHargaDisplay');
         const counterValue = document.getElementById("counterValue");
         const minusBtn = document.getElementById("minusBtn");
@@ -218,7 +234,7 @@ default => 'Sort By'
                 inputProductId.value = productId;
 
                 modalProductName.textContent = productName;
-                hargaProdukEl.textContent = formatRupiah(currentPrice);
+                // hargaProdukEl.textContent = formatRupiah(currentPrice);
                 counterValue.value = 1;
                 updateTotalHarga();
                 inputSessionId.value = '';

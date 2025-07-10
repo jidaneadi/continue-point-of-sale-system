@@ -6,8 +6,10 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\PhotoSession;
 use App\Http\Requests\ShowListProductRequest;
+use App\Http\Requests\StoreKeranjangRequest;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Customer;
+use App\Models\Keranjang;
 use App\Models\Photographer;
 use App\Models\ProductDiscount;
 use App\Models\Transaction;
@@ -107,6 +109,46 @@ class ListProductController extends Controller
                 Alert::success('Sukses', 'Transaksi berhasil dibuat.');
                 return redirect()->route('list.index');
             }
+        } catch (\Exception $e) {
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back()->withInput();
+        }
+    }
+    public function bucket()
+    {
+        $title = 'Keranjang -Products';
+
+        $userId = Auth::user()->id;
+        $customer = Customer::where('user_id', $userId)->first();
+
+        $customerId = $customer->id;
+        $keranjang = Keranjang::where('customers_id', $customerId)->get();
+        return view('master.list-product.keranjang', compact('title', 'keranjang'));
+    }
+    public function store_bucket(StoreKeranjangRequest $request)
+    {
+        try {
+            $userId = Auth::user()->id;
+            $customer = Customer::where('user_id', $userId)->first();
+
+            if ($request->product_id === "") {
+                Alert::error('Error', 'Id produk cannot be empty!');
+            }
+            $product = Product::findOrFail($request->product_id);
+
+            if ($request->quantity <= 0) {
+                Alert::error('Error', 'Jumlah cannot be empty!');
+            }
+
+            Keranjang::create([
+                'customers_id' => $customer->id,
+                'products_id' => $request->product_id,
+                'jumlah' => $request->quantity,
+                'photo_session_id' => $request->photo_session_id,
+                'schedule' => $request->photo_date
+            ]);
+                Alert::success('Sukses', 'Produk telah ditambahkan ke keranjang.');
+                return redirect()->route('list.index');
         } catch (\Exception $e) {
             Alert::error('Error', $e->getMessage());
             return redirect()->back()->withInput();

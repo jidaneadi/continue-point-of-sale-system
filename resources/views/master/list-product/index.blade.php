@@ -76,7 +76,11 @@ default => 'Sort By'
                         <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['order' => 'termahal']) }}">Termahal</a></li>
                     </ul>
                 </div>
-
+                <div>
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ url('master/list/keranjang')}}">
+                        <i data-feather="shopping-cart"></i>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="d-felx justify-content-around">
@@ -105,7 +109,7 @@ default => 'Sort By'
                                     data-id="{{ $product->id }}"
                                     data-name="{{ $product->name }}"
                                     data-price="{{ $product->price }}">
-                                    Pilih Produk
+                                    <i data-feather="shopping-cart"></i> Keranjang
                                 </a>
                             </div>
                         </div>
@@ -125,16 +129,16 @@ default => 'Sort By'
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('list.store') }}">
+                    <form method="POST" action="{{ route('list.store_bucket') }}">
                         @csrf
-                        <input type="hidden" name="product_id[]" id="inputProductId">
-                        <input type="hidden" name="photo_session_id[]" id="inputSessionId">
-                        <input type="hidden" name="photographer_id[]" value="">
+                        <input type="hidden" name="product_id" id="inputProductId">
+                        <input type="hidden" name="photo_session_id" id="inputSessionId">
+                        <input type="hidden" name="photographer_id" value="">
 
                         <div class="row">
                             <div class="col-7">
                                 <label class="form-label">{{ __('Pilih Tanggal*') }}</label>
-                                <input type="date" name="photo_date[]" class="form-control" required>
+                                <input type="date" name="photo_date" class="form-control" required>
                             </div>
                             @error('photo_date')
                             <div class="invalid-feedback">
@@ -165,27 +169,9 @@ default => 'Sort By'
                             <!-- <p id="hargaProduk" type="hidden" class="text-muted small">Harga: Rp. 0</p> -->
                             <p id="totalHargaDisplay" class="mb-0 fw-bold text-end">Rp. 0 x 0 = Rp. 0</p>
                         </div>
-
-                        <div class="row mb-1 mt-2">
-                            <label class="col-sm-6 form-label" for="payment_method">{{ __('Pilih Pembayaran* :') }}</label>
-                            <div class="col-sm-6">
-                                <select name="payment_method" id="payment_method" class="form-control @error('payment_method') is-invalid @enderror" required>
-                                    <option value="" disabled>Select Payment Method</option>
-                                    <option value="cash">Cash</option>
-                                    <option value="qris">QRIS</option>
-                                    <option value="gopay">GoPay</option>
-                                </select>
-                                @error('payment_method')
-                                <div class="invalid-feedback">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Pesan Sekarang</button>
+                            <button type="submit" class="btn btn-primary"><i data-feather="plus"></i> Masukkan Keranjang</button>
                         </div>
                     </form>
                 </div>

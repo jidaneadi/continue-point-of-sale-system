@@ -91,8 +91,15 @@
                         @enderror
                     </div>
                 </div>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <button type="submit" class="btn btn-primary">Pesan Sekarang</button>
+            </form>
+            <form action="{{ route('list.store_bucket') }}" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" id="IdProductKeranjang" value="{{ $data->id }}">
+                <input type="hidden" name="quantity" id="quantityProductKeranjang" value="1">
+                <input type="hidden" name="photo_session_id" id="photoSessionKeranjang">
+                <input type="hidden" name="photo_date" id="photoDateKeranjang">
+                <button type="submit" class="btn btn-secondary">Keranjang</button>
             </form>
         </div>
         <div class="col-12 my-2">
@@ -106,12 +113,16 @@
 @push('script')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const keranjangButtons = document.querySelectorAll('.btn-keranjang');
         const modalProductName = document.getElementById('modalProductName');
         const counterVal = document.getElementById("counterValue");
         const minusBtn = document.getElementById("minusBtn");
         const plusBtn = document.getElementById("plusBtn");
+        const quantityProductKeranjang = document.getElementById("quantityProductKeranjang");
+        const IdProductKeranjang = document.getElementById("IdProductKeranjang");
+        const photoSessionKeranjang = document.getElementById("photoSessionKeranjang");
+        const photoDateKeranjang = document.getElementById("photoDateKeranjang");
         const inputSessionId = document.getElementById("inputSessionId");
+        const photoDateInput = document.querySelector('input[name="photo_date[]"]');
 
         let currentPrice = 0;
 
@@ -122,33 +133,18 @@
                 minimumFractionDigits: 2,
             }).format(angka);
         }
-
-        keranjangButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const productName = button.getAttribute('data-name');
-                currentPrice = parseFloat(button.getAttribute('data-price'));
-                const productId = button.getAttribute('data-id');
-                inputProductId.value = productId;
-
-                modalProductName.textContent = productName;
-                // hargaProdukEl.textContent = formatRupiah(currentPrice);
-                counterValue.value = 1;
-                updateTotalHarga();
-                inputSessionId.value = '';
-            });
-        });
         minusBtn.addEventListener("click", function(e) {
             e.preventDefault();
             let value = parseInt(counterValue.value) || 1;
             if (value > 1) counterValue.value = value - 1;
-            updateTotalHarga();
+            if (value > 1) quantityProductKeranjang.value = value - 1;
         });
 
         plusBtn.addEventListener("click", function(e) {
             e.preventDefault();
             let value = parseInt(counterValue.value) || 1;
             counterValue.value = value + 1;
-            updateTotalHarga();
+            quantityProductKeranjang.value = value + 1;
         });
 
         const sesiButtons = document.querySelectorAll('.sesi-btn');
@@ -158,8 +154,12 @@
                 sesiButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
                 const sesiId = this.getAttribute('data-id');
+                photoSessionKeranjang.value = sesiId
                 inputSessionId.value = sesiId;
             });
+        });
+        photoDateInput.addEventListener('change', function() {
+            photoDateKeranjang.value = this.value;
         });
     })
 </script>

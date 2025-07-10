@@ -39,47 +39,49 @@
         <div class="col-12 col-sm-5">
             <img src="{{ Storage::url($data->photo) }}" alt="{{ $data->name }}" class="img-fluid" style="height: 420px; width: 100%; object-fit: cover;" />
         </div>
-        <div class="col-12 col-sm-7 px-sm-4">
-            <form action="{{ route('list.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="product_id[]" value="{{ $data->id }}">
-                <input type="hidden" name="photo_session_id[]" id="inputSessionId">
-                <input type="hidden" name="photographer_id[]" value="">
 
-                <h2> {{ $data->name }} </h2>
-                <h4> {{ $data->price }} </h4>
+        <div class="col-12 col-sm-7 px-sm-4">
+            <form id="productForm" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $data->id }}">
+                <input type="hidden" name="photo_session_id" id="inputSessionId">
+                <input type="hidden" name="quantity" id="quantityValue" value="1">
+                <input type="hidden" name="photo_date" id="photoDateValue">
+
+                <h2>{{ $data->name }}</h2>
+                <h4>{{ $data->price }}</h4>
+
                 <div class="row">
                     <div class="col-7">
                         <label class="form-label">{{ __('Pilih Tanggal*') }}</label>
-                        <input type="date" name="photo_date[]" class="form-control" required>
+                        <input type="date" name="photo_date_display" class="form-control" required>
                     </div>
-                    @error('photo_date')
-                    <div class="invalid-feedback">
-                        <strong>{{ $message }}</strong>
-                    </div>
-                    @enderror
                     <div class="col-5">
                         <label class="form-label">{{ __('Jumlah*') }}</label>
                         <div class="d-flex">
                             <button type="button" class="btn btn-outline-secondary" id="minusBtn">-</button>
-                            <input type="text" class="form-control text-center mx-1" name="quantity" id="counterValue" value="1" readonly>
+                            <input type="text" class="form-control text-center mx-1" id="counterValue" value="1" readonly>
                             <button type="button" class="btn btn-outline-secondary" id="plusBtn">+</button>
                         </div>
                     </div>
                 </div>
+
                 <label for="sesiFoto" class="form-label mt-2">Sesi Foto</label>
                 <div class="row">
                     @foreach ($sessionPhoto as $sesi)
                     <div class="col-3">
-                        <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}"> {{ $sesi->start_time }} </a>
+                        <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}">
+                            {{ $sesi->start_time }}
+                        </a>
                     </div>
                     @endforeach
                 </div>
+
                 <div class="row mb-1 mt-2">
-                    <label class="col-sm-6 form-label" for="payment_method">{{ __('Pilih Pembayaran* :') }}</label>
+                    <label class="col-sm-6 form-label">{{ __('Pilih Pembayaran* :') }}</label>
                     <div class="col-sm-6">
                         <select name="payment_method" id="payment_method" class="form-control @error('payment_method') is-invalid @enderror" required>
-                            <option value="" disabled>Select Payment Method</option>
+                            <option value="" disabled selected>Select Payment Method</option>
                             <option value="cash">Cash</option>
                             <option value="qris">QRIS</option>
                             <option value="gopay">GoPay</option>
@@ -91,20 +93,18 @@
                         @enderror
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Pesan Sekarang</button>
             </form>
-            <form action="{{ route('list.store_bucket') }}" method="POST">
-                @csrf
-                <input type="hidden" name="product_id" id="IdProductKeranjang" value="{{ $data->id }}">
-                <input type="hidden" name="quantity" id="quantityProductKeranjang" value="1">
-                <input type="hidden" name="photo_session_id" id="photoSessionKeranjang">
-                <input type="hidden" name="photo_date" id="photoDateKeranjang">
-                <button type="submit" class="btn btn-secondary">Keranjang</button>
-            </form>
+
+            {{-- Tombol di luar form --}}
+            <div class="mt-2 d-flex gap-2">
+                <button type="button" class="btn btn-primary" id="btnPesan">Pesan Sekarang</button>
+                <button type="button" class="btn btn-secondary" id="btnKeranjang">Keranjang</button>
+            </div>
         </div>
+
         <div class="col-12 my-2">
             <h2>Detail Paket</h2>
-            <p> {{ $data->description }} </p>
+            <p>{{ $data->description }}</p>
         </div>
     </div>
 </section>
@@ -112,55 +112,65 @@
 
 @push('script')
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const modalProductName = document.getElementById('modalProductName');
-        const counterVal = document.getElementById("counterValue");
+    document.addEventListener("DOMContentLoaded", function () {
+        const counterInput = document.getElementById("counterValue");
+        const quantityInput = document.getElementById("quantityValue");
         const minusBtn = document.getElementById("minusBtn");
         const plusBtn = document.getElementById("plusBtn");
-        const quantityProductKeranjang = document.getElementById("quantityProductKeranjang");
-        const IdProductKeranjang = document.getElementById("IdProductKeranjang");
-        const photoSessionKeranjang = document.getElementById("photoSessionKeranjang");
-        const photoDateKeranjang = document.getElementById("photoDateKeranjang");
+        const photoDateInput = document.querySelector('input[name="photo_date_display"]');
+        const photoDateHidden = document.getElementById("photoDateValue");
         const inputSessionId = document.getElementById("inputSessionId");
-        const photoDateInput = document.querySelector('input[name="photo_date[]"]');
-
-        let currentPrice = 0;
-
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 2,
-            }).format(angka);
-        }
-        minusBtn.addEventListener("click", function(e) {
-            e.preventDefault();
-            let value = parseInt(counterValue.value) || 1;
-            if (value > 1) counterValue.value = value - 1;
-            if (value > 1) quantityProductKeranjang.value = value - 1;
-        });
-
-        plusBtn.addEventListener("click", function(e) {
-            e.preventDefault();
-            let value = parseInt(counterValue.value) || 1;
-            counterValue.value = value + 1;
-            quantityProductKeranjang.value = value + 1;
-        });
-
         const sesiButtons = document.querySelectorAll('.sesi-btn');
+        const form = document.getElementById("productForm");
+        const btnPesan = document.getElementById("btnPesan");
+        const btnKeranjang = document.getElementById("btnKeranjang");
+
+        // counter
+        minusBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            let value = parseInt(counterInput.value) || 1;
+            if (value > 1) {
+                counterInput.value = value - 1;
+                quantityInput.value = value - 1;
+            }
+        });
+
+        plusBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            let value = parseInt(counterInput.value) || 1;
+            counterInput.value = value + 1;
+            quantityInput.value = value + 1;
+        });
+
         sesiButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
+            button.addEventListener('click', function (e) {
                 e.preventDefault();
                 sesiButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
-                const sesiId = this.getAttribute('data-id');
-                photoSessionKeranjang.value = sesiId
-                inputSessionId.value = sesiId;
+                inputSessionId.value = this.dataset.id;
             });
         });
-        photoDateInput.addEventListener('change', function() {
-            photoDateKeranjang.value = this.value;
+
+        photoDateInput.addEventListener("change", function () {
+            photoDateHidden.value = this.value;
         });
-    })
+
+        function syncFormData() {
+            quantityInput.value = counterInput.value;
+            photoDateHidden.value = photoDateInput.value;
+        }
+
+        btnPesan.addEventListener("click", function () {
+            syncFormData();
+            form.action = "{{ route('list.store_detail') }}";
+            form.submit();
+        });
+
+        btnKeranjang.addEventListener("click", function () {
+            syncFormData();
+            form.action = "{{ route('list.store_bucket') }}";
+            form.submit();
+        });
+    });
 </script>
 @endpush

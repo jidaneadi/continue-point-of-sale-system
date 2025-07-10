@@ -55,6 +55,64 @@ class ListProductController extends Controller
         return view('master.list-product.detail', compact('title', 'data', 'sessionPhoto'));
     }
 
+    public function store_detail(StoreTransactionRequest $request)
+    {
+        try {
+            $isPayment = $request->payment_method ?? 'cash';
+            $paidAt = $isPayment ? now() : Carbon::now();
+            $isCash = $isPayment === 'cash';
+            $totalPrice = 0;
+
+            $id_user = Auth::user()->id;
+            $customer = Customer::where('user_id', $id_user)->first();
+
+            $transaction = Transaction::create([
+                'customer_id'    => $customer->id,
+                'total_price'    => 0,
+                'payment_status' => $isPayment !== 'cash' ? 'paid' : 'pending',
+                'payment_method' => $isPayment,
+                'paid_at'        => $isPayment ? now() : null,
+            ]);
+
+            $productId = $request->product_id;
+            $product = Product::findOrFail($productId);
+            $price = $product->price;
+
+            $discount = ProductDiscount::where('product_id', $productId)
+                ->where('start_date', '<=', $paidAt)
+                ->where('end_date', '>=', $paidAt)
+                ->first();
+
+            $discountAmount = $discount ? ($price * $discount->discount / 100) : 0;
+            $quantity = $request->quantity ?? 1;
+            $total = ($price * $quantity) - $discountAmount;
+            $totalPrice += $total;
+
+            $photographerId = Photographer::inRandomOrder()->value('id');
+
+            TransactionDetail::create([
+                'transaction_id'     => $transaction->id,
+                'product_id'         => $productId,
+                'photo_session_id'   => $request->photo_session_id ?? null,
+                'discount_id'        => $discount->id ?? null,
+                'photographer_id'    => $photographerId,
+                'price'              => $price,
+                'total'              => $total,
+                'schedule'           => $request->photo_date ?? null,
+                'status'             => false,
+            ]);
+
+            $transaction->update(['total_price' => $totalPrice]);
+
+            Alert::success('Sukses', 'Transaksi berhasil dibuat.');
+            return redirect()->route('list.index');
+        } catch (\Exception $e) {
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back()->withInput();
+        }
+    }
+
+
     public function store(StoreTransactionRequest $request)
     {
         try {
@@ -147,8 +205,8 @@ class ListProductController extends Controller
                 'photo_session_id' => $request->photo_session_id,
                 'schedule' => $request->photo_date
             ]);
-                Alert::success('Sukses', 'Produk telah ditambahkan ke keranjang.');
-                return redirect()->route('list.index');
+            Alert::success('Sukses', 'Produk telah ditambahkan ke keranjang.');
+            return redirect()->route('list.index');
         } catch (\Exception $e) {
             Alert::error('Error', $e->getMessage());
             return redirect()->back()->withInput();

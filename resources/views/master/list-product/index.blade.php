@@ -2,13 +2,6 @@
 
 @section('title')
 <title>{{ config('app.name', 'Arts by Sahara') }} | {{ $title }}</title>
-<style>
-    .sesi-btn.active {
-        background-color: #0d6efd;
-        color: white;
-        border-color: #0d6efd;
-    }
-</style>
 @endsection
 
 @php

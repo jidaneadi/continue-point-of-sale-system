@@ -16,6 +16,7 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ListProductController extends Controller
@@ -180,7 +181,22 @@ class ListProductController extends Controller
         $customer = Customer::where('user_id', $userId)->first();
 
         $customerId = $customer->id;
-        $keranjang = Keranjang::where('customers_id', $customerId)->get();
+        // $keranjang = Keranjang::where('customers_id', $customerId)->get();
+        $keranjang = DB::table('keranjangs')
+            ->join('products', 'keranjangs.products_id', '=', 'products.id')
+            ->join('photo_sessions', 'keranjangs.photo_session_id', '=', 'photo_sessions.id')
+            ->where('customers_id', $customerId)
+            ->orderBy('keranjangs.created_at', 'desc')
+            ->select(
+                'keranjangs.jumlah as jumlah',
+                'keranjangs.schedule as schedule',
+                'products.name as name_product',
+                'products.price as price',
+                'products.photo as photo',
+                'photo_sessions.name as name_session',
+                'photo_sessions.start_time as start',
+                'photo_sessions.end_time as end'
+            )->get();
         return view('master.list-product.keranjang', compact('title', 'keranjang'));
     }
     public function store_bucket(StoreKeranjangRequest $request)

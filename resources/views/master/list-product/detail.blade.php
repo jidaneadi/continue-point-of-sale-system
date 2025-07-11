@@ -2,19 +2,6 @@
 
 @section('title')
 <title>{{ config('app.name', 'Arts by Sahara') }} | {{ $title }}</title>
-<style>
-    .counter-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        max-width: 150px;
-    }
-
-    .counter-input {
-        width: 50px;
-        text-align: center;
-    }
-</style>
 @endsection
 
 @section('content-header')
@@ -125,7 +112,6 @@
         const btnPesan = document.getElementById("btnPesan");
         const btnKeranjang = document.getElementById("btnKeranjang");
 
-        // counter
         minusBtn.addEventListener("click", function (e) {
             e.preventDefault();
             let value = parseInt(counterInput.value) || 1;

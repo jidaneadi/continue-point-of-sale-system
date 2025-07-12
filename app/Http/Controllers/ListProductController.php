@@ -197,7 +197,8 @@ class ListProductController extends Controller
                 'photo_sessions.start_time as start',
                 'photo_sessions.end_time as end'
             )->get();
-        return view('master.list-product.keranjang', compact('title', 'keranjang'));
+            $kategories = ProductCategory::get();
+        return view('master.list-product.keranjang', compact('title', 'keranjang', 'kategories'));
     }
     public function store_bucket(StoreKeranjangRequest $request)
     {

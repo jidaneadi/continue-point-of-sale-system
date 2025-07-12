@@ -23,10 +23,6 @@
 @section('content-body')
 <section>
     <div class="row">
-        <div class="mb-2">
-            <input type="checkbox" id="selectAll" class="form-check-input me-1">
-            <label for="selectAll">Pilih Semua</label>
-        </div>
         <div class="mb-5">
             @foreach($keranjang as $index => $item)
             <div class="col-12 mb-2">
@@ -76,6 +72,38 @@
         </div>
         <div class="bg-white shadow-lg border-top py-3 position-fixed bottom-0 start-0 w-100" style="z-index: 1000;">
             <div class="container d-flex justify-content-between align-items-center">
+                <div>
+                    <input type="checkbox" id="selectAll" class="form-check-input me-1">
+                    <label for="selectAll">Pilih Semua</label>
+                    <button class="btn text-danger" style="font-weight: bold;">Hapus</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Payment Method
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a value="cash" class="dropdown-item">Cash</a>
+                        </li>
+                        <li>
+                            <a value="qris" class="dropdown-item">QRIS</a>
+                        </li>
+                        <li>
+                            <a value="gopay" class="dropdown-item">Gopay</a>
+                        </li>
+                    </ul>
+                    <!-- <select name="payment_method" id="payment_method" class="form-control @error('payment_method') is-invalid @enderror" required>
+                        <option value="" disabled selected>Select Payment Method</option>
+                        <option value="cash">Cash</option>
+                        <option value="qris">QRIS</option>
+                        <option value="gopay">GoPay</option>
+                    </select> -->
+                    <!-- @error('payment_method')
+                    <div class="invalid-feedback">
+                        <strong>{{ $message }}</strong>
+                    </div>
+                    @enderror -->
+                </div>
                 <div>
                     <strong>Total (<span id="totalProduk">0</span> produk):</strong>
                 </div>

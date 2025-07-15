@@ -26,7 +26,11 @@
         <div class="mb-5">
             @foreach($keranjang as $index => $item)
             <div class="col-12 mb-2">
-                <div class="card">
+                <div class="card"
+                    data-product-id="{{ $item->id_product }}"
+                    data-photo-session-id="{{ $item->session_id }}"
+                    data-photo-date="{{ $item->schedule }}"
+                    data-keranjang-id="{{ $item->id }}">
                     <div class="card-body d-flex align-items-center">
                         <div class="me-3">
                             <input type="checkbox" class="form-check-input item-checkbox"
@@ -70,46 +74,35 @@
             </div>
             @endforeach
         </div>
+
         <div class="bg-white shadow-lg border-top py-3 position-fixed bottom-0 start-0 w-100" style="z-index: 1000;">
             <div class="container d-flex justify-content-between align-items-center">
                 <div>
                     <input type="checkbox" id="selectAll" class="form-check-input me-1">
                     <label for="selectAll">Pilih Semua</label>
-                    <button class="btn text-danger" style="font-weight: bold;">Hapus</button>
+                    <button class="btn text-danger" id="btn-delete" style="font-weight: bold;">Hapus</button>
                 </div>
                 <div class="dropdown">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id="selectedPaymentMethodBtn" class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Payment Method
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a value="cash" class="dropdown-item">Cash</a>
-                        </li>
-                        <li>
-                            <a value="qris" class="dropdown-item">QRIS</a>
-                        </li>
-                        <li>
-                            <a value="gopay" class="dropdown-item">Gopay</a>
-                        </li>
+                        <li><a value="cash" class="dropdown-item">Cash</a></li>
+                        <li><a value="qris" class="dropdown-item">QRIS</a></li>
+                        <li><a value="gopay" class="dropdown-item">Gopay</a></li>
                     </ul>
-                    <!-- <select name="payment_method" id="payment_method" class="form-control @error('payment_method') is-invalid @enderror" required>
-                        <option value="" disabled selected>Select Payment Method</option>
-                        <option value="cash">Cash</option>
-                        <option value="qris">QRIS</option>
-                        <option value="gopay">GoPay</option>
-                    </select> -->
-                    <!-- @error('payment_method')
-                    <div class="invalid-feedback">
-                        <strong>{{ $message }}</strong>
-                    </div>
-                    @enderror -->
                 </div>
                 <div>
                     <strong>Total (<span id="totalProduk">0</span> produk):</strong>
                 </div>
                 <div class="d-flex align-items-center gap-3">
                     <strong id="grandTotal" class="fs-5">Rp0</strong>
-                    <button class="btn btn-danger">Checkout</button>
+                    <form method="POST" id="createTransaction" action="{{ route('list.store') }}">
+                        @csrf
+                        <div id="form-hidden-inputs"></div>
+                        <input type="hidden" name="payment_method" id="input-payment-method" value="cash">
+                        <button class="btn btn-danger" id="btn-checkout" type="submit">Checkout</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -125,6 +118,12 @@
         const grandTotalEl = document.getElementById('grandTotal');
         const itemCheckboxes = document.querySelectorAll('.item-checkbox');
         const selectAll = document.getElementById('selectAll');
+        const formTransaction = document.getElementById('createTransaction');
+        const btnCheckout = document.getElementById('btn-checkout');
+        const formInputsContainer = document.getElementById('form-hidden-inputs');
+        const paymentMethodInput = document.getElementById('input-payment-method');
+        const selectedPaymentMethodBtn = document.getElementById('selectedPaymentMethodBtn');
+        const btnDelete = document.getElementById('btn-delete');
 
         function formatRupiah(angka) {
             return new Intl.NumberFormat('id-ID', {
@@ -197,7 +196,6 @@
             });
         });
 
-
         selectAll.addEventListener("change", function() {
             itemCheckboxes.forEach(function(cb) {
                 cb.checked = selectAll.checked;
@@ -205,6 +203,79 @@
             updateSemuaTotal();
         });
 
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const value = this.getAttribute('value');
+                const label = this.textContent.trim();
+
+                paymentMethodInput.value = value;
+                selectedPaymentMethodBtn.textContent = label;
+            });
+        });
+
+        function createdTransaction() {
+            formInputsContainer.innerHTML = '';
+            itemCheckboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    const index = checkbox.dataset.index;
+                    const jumlahInput = document.querySelector(`.jumlah-wrapper[data-index="${index}"] .input-jumlah`);
+                    const jumlah = parseInt(jumlahInput.value) || 1;
+                    const card = checkbox.closest('.card');
+
+                    const productId = card.dataset.productId;
+                    const keranjangId = card.dataset.keranjangId;
+                    const sessionId = card.dataset.photoSessionId || '';
+                    const photoDate = card.dataset.photoDate || '';
+
+                    formInputsContainer.insertAdjacentHTML('beforeend', `
+                        <input type="hidden" name="product_id[]" value="${productId}">
+                        <input type="hidden" name="id[]" value="${keranjangId}">
+                        <input type="hidden" name="quantity[]" value="${jumlah}">
+                        <input type="hidden" name="photo_session_id[]" value="${sessionId}">
+                        <input type="hidden" name="photo_date[]" value="${photoDate}">
+                    `);
+                }
+            });
+        }
+
+        btnCheckout.addEventListener("click", function(e) {
+            createdTransaction();
+        });
+
+        btnDelete.addEventListener("click", function() {
+            const checkedItems = document.querySelectorAll('.item-checkbox:checked');
+            if (checkedItems.length === 0) {
+                alert("Pilih item yang ingin dihapus.");
+                return;
+            }
+
+            if (!confirm("Apakah Anda yakin ingin menghapus item yang dipilih?")) {
+                return;
+            }
+
+            checkedItems.forEach(function(checkbox) {
+                const card = checkbox.closest('.card');
+                const keranjangId = card.dataset.keranjangId;
+
+                fetch(`{{ route('list.store_delete', ['id' => '__id__']) }}`.replace('__id__', keranjangId), {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Gagal menghapus item.");
+                        }
+                        card.parentElement.remove();
+                    })
+                    .catch(error => {
+                        alert("Terjadi kesalahan saat menghapus: " + error.message);
+                    });
+            });
+        });
         updateSemuaTotal();
     });
 </script>

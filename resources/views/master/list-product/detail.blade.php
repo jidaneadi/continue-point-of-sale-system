@@ -62,6 +62,13 @@
                         </a>
                     </div>
                     @endforeach
+                    @foreach ($sessionOutdoor as $outdoor)
+                    <div class="col-4">
+                        <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $outdoor->start_time }}" data-id="{{ $outdoor->id }}">
+                            {{ $outdoor->name }}
+                        </a>
+                    </div>
+                    @endforeach
                 </div>
 
                 <div class="row mb-1 mt-2">

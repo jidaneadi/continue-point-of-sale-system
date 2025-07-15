@@ -151,8 +151,15 @@ default => 'Sort By'
                         <div class="row">
                             @foreach ($sessionPhoto as $sesi)
                             <div class="col-3">
-                                <a href="#" class="btn btn-outline-primary my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}">
+                                <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}">
                                     {{ $sesi->start_time }}
+                                </a>
+                            </div>
+                            @endforeach
+                            @foreach ($sessionOutdoor as $outdoor)
+                            <div class="col-5">
+                                <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $outdoor->start_time }}" data-id="{{ $outdoor->id }}">
+                                    {{ $outdoor->name }}
                                 </a>
                             </div>
                             @endforeach

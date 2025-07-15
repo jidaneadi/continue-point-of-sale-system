@@ -62,6 +62,7 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], f
     Route::get('/list/detail/{id}', [ListProductController::class, 'show_detail']) ->name('list.show_detail');
     Route::get('/list/keranjang', [ListProductController::class, 'bucket'])->name('list.bucket');
     Route::post('/list/keranjang/store', [ListProductController::class, 'store_bucket'])->name('list.store_bucket');
+    Route::delete('/list/keranjang/{id}', [ListProductController::class, 'store_delete'])->name('list.store_delete');
 
     Route::get('/discount', [ProductDiscountController::class, 'index'])->name('discount.index');
     Route::get('/discount/create', [ProductDiscountController::class, 'create'])->name('discount.create');

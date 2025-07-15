@@ -46,14 +46,16 @@ class ListProductController extends Controller
         $products = $query->get();
         $kategories = ProductCategory::get();
         $sessionPhoto = PhotoSession::where('code', 'like', '%IS%')->get();
-        return view('master.list-product.index', compact('title', 'products', 'kategories', 'sessionPhoto'));
+        $sessionOutdoor = PhotoSession::where('code', 'like', '%OS%')->get();
+        return view('master.list-product.index', compact('title', 'products', 'kategories', 'sessionPhoto', 'sessionOutdoor'));
     }
     public function show_detail(string $id)
     {
         $title = "Detail - Products";
         $data = Product::with('category')->findOrFail($id);
         $sessionPhoto = PhotoSession::where('code', 'like', '%IS%')->get();
-        return view('master.list-product.detail', compact('title', 'data', 'sessionPhoto'));
+        $sessionOutdoor = PhotoSession::where('code', 'like', '%OS%')->get();
+        return view('master.list-product.detail', compact('title', 'data', 'sessionPhoto', 'sessionOutdoor'));
     }
 
     public function store_detail(StoreTransactionRequest $request)
@@ -61,7 +63,6 @@ class ListProductController extends Controller
         try {
             $isPayment = $request->payment_method ?? 'cash';
             $paidAt = $isPayment ? now() : Carbon::now();
-            $isCash = $isPayment === 'cash';
             $totalPrice = 0;
 
             $id_user = Auth::user()->id;
@@ -89,6 +90,16 @@ class ListProductController extends Controller
             $total = ($price * $quantity) - $discountAmount;
             $totalPrice += $total;
 
+            $cekDetail = TransactionDetail::where('schedule', $request->photo_date)
+                ->where('photo_session_id', $request->photo_session_id)
+                ->get();
+            $sessionData = PhotoSession::where('id', $request->photo_session_id)->first();
+
+            if ($cekDetail->count() > 1) {
+                $transaction->delete();
+                Alert::error('Error', 'Schedule di tanggal ' . $request->photo_date . ' di jam ' . $sessionData->start_time . ' sudah penuh');
+                return redirect()->back()->withInput();
+            }
             $photographerId = Photographer::inRandomOrder()->value('id');
 
             TransactionDetail::create([
@@ -140,9 +151,18 @@ class ListProductController extends Controller
                     ->where('start_date', '<=', $paidAt)
                     ->where('end_date', '>=', $paidAt)
                     ->first();
+                $cekTransaction = TransactionDetail::whereDate('schedule', $request->photo_date[$index])
+                    ->where('photo_session_id', $request->photo_session_id[$index])
+                    ->get();
 
+                $sessionData = PhotoSession::where('id', $request->photo_session_id[$index])->first();
+                if ($cekTransaction->count() > 1) {
+                    $transaction->delete();
+                    Alert::error('Error', 'Schedule di tanggal ' . $request->photo_date[$index] . ' di jam ' . $sessionData->start_time . ' sudah penuh');
+                    return redirect()->back()->withInput();
+                }
                 $discountAmount = $discount ? ($price * $discount->discount / 100) : 0;
-                $total = ($price * $request->quantity) - $discountAmount;
+                $total = ($price * $request->quantity[$index]) - $discountAmount;
 
                 $totalPrice += $total;
                 $photographerId = Photographer::inRandomOrder()->value('id');
@@ -158,8 +178,13 @@ class ListProductController extends Controller
                     'schedule'           => $request->photo_date[$index] ?? null,
                     'status'             => false,
                 ]);
+                if ($request->id[$index]) {
+                    $keranjang = Keranjang::where('id', $request->id[$index])->first();
+                    if ($keranjang) {
+                        $keranjang->delete();
+                    }
+                }
             }
-
             $transaction->update(['total_price' => $totalPrice]);
             if ($isCash) {
                 Alert::success('Sukses', 'Transaksi berhasil dibuat.');
@@ -181,13 +206,15 @@ class ListProductController extends Controller
         $customer = Customer::where('user_id', $userId)->first();
 
         $customerId = $customer->id;
-        // $keranjang = Keranjang::where('customers_id', $customerId)->get();
         $keranjang = DB::table('keranjangs')
             ->join('products', 'keranjangs.products_id', '=', 'products.id')
             ->join('photo_sessions', 'keranjangs.photo_session_id', '=', 'photo_sessions.id')
             ->where('customers_id', $customerId)
             ->orderBy('keranjangs.created_at', 'desc')
             ->select(
+                'keranjangs.id as id',
+                'keranjangs.products_id as id_product',
+                'keranjangs.photo_session_id as session_id',
                 'keranjangs.jumlah as jumlah',
                 'keranjangs.schedule as schedule',
                 'products.name as name_product',
@@ -197,7 +224,7 @@ class ListProductController extends Controller
                 'photo_sessions.start_time as start',
                 'photo_sessions.end_time as end'
             )->get();
-            $kategories = ProductCategory::get();
+        $kategories = ProductCategory::get();
         return view('master.list-product.keranjang', compact('title', 'keranjang', 'kategories'));
     }
     public function store_bucket(StoreKeranjangRequest $request)
@@ -227,6 +254,19 @@ class ListProductController extends Controller
         } catch (\Exception $e) {
             Alert::error('Error', $e->getMessage());
             return redirect()->back()->withInput();
+        }
+    }
+    public function store_delete(string $id)
+    {
+        try {
+            $cek = Keranjang::where('id', $id)->first();
+            if ($cek) {
+                $cek->delete();
+                return response()->json(['success' => true]);
+            }
+            return response()->json(['error' => 'Produk tidak ditemukan'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

@@ -69,11 +69,6 @@ default => 'Sort By'
                         <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['order' => 'termahal']) }}">Termahal</a></li>
                     </ul>
                 </div>
-                <div>
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ url('master/list/keranjang')}}">
-                        <i data-feather="shopping-cart"></i>
-                    </a>
-                </div>
             </div>
         </div>
         <div class="d-felx justify-content-around">

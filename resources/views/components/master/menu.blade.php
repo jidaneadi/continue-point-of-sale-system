@@ -17,7 +17,7 @@
     </div>
 
     <div class="shadow-bottom"></div>
-        
+
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             @can(['dashboard'])
@@ -28,7 +28,20 @@
                 </a>
             </li>
             @endcan
-
+            @canany(['list-product-read'])
+            <li class=" navigation-header">
+                <span data-i18n="Shopping">{{ __('Shopping') }}</span>
+                <i data-feather="more-horizontal"></i>
+            </li>
+            @endcanany
+            @can(['list-product-read'])
+            <li class="{{ Request::routeIs('list-product-read') ? 'active' : '' }} nav-item">
+                <a class="d-flex align-items-center" href="{{ route('list.index') }}">
+                    <i data-feather="shopping-bag"></i>
+                    <span class="menu-title text-truncate" data-i18n="Shop">{{ __('Shop') }}</span>
+                </a>
+            </li>
+            @endcan
             @canany(['transaction-read'])
             <li class=" navigation-header">
                 <span data-i18n="Main">{{ __('Main') }}</span>
@@ -77,7 +90,7 @@
                         </a>
                     </li>
                     @endcan
-                        
+
                     @can(['product-read'])
                     <li class="{{ Request::routeIs('product.index') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ url()->route('product.index') }}">

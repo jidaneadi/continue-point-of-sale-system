@@ -11,11 +11,13 @@
         </div>
 
         <ul class="nav navbar-nav align-items-center ms-auto">
+            @can(['list_product-read'])
             <li class="nav-item d-none d-lg-block">
                 <a class="nav-link" href="{{ url('master/list/keranjang')}}">
                     <i class="ficon" data-feather="shopping-cart"></i>
                 </a>
             </li>
+            @endcan
             <li class="nav-item d-none d-lg-block">
                 <a class="nav-link nav-link-style">
                     <i class="ficon" data-feather="moon"></i>

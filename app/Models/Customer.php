@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory, HasUuids;
-    
+
     protected $fillable = [
+        'id',
         'user_id',
     ];
 

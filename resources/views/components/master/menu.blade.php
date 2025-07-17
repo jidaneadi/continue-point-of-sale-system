@@ -42,6 +42,20 @@
                 </a>
             </li>
             @endcan
+            @canany(['transaction-history-show'])
+            <li class=" navigation-header">
+                <span data-i18n="Main">{{ __('Main') }}</span>
+                <i data-feather="more-horizontal"></i>
+            </li>
+            @endcanany
+            @can(['transaction-history-show'])
+            <li class="{{ Request::routeIs('transaction-history-show') ? 'active' : '' }} nav-item">
+                <a class="d-flex align-items-center" href="{{ route('transaction-history.index') }}">
+                    <i data-feather="list"></i>
+                    <span class="menu-title text-truncate" data-i18n="Transaction">{{ __('Transaction') }}</span>
+                </a>
+            </li>
+            @endcan
             @canany(['transaction-read'])
             <li class=" navigation-header">
                 <span data-i18n="Main">{{ __('Main') }}</span>

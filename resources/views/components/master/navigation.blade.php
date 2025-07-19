@@ -10,6 +10,19 @@
             </ul>
         </div>
 
+        @can(['list-product-read'])
+        <ul class="nav navbar-nav align-items-end">
+                <li class="nav-item">
+                    <a href="" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">Galeri</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">Tentang Kami</a>
+                </li>
+        </ul>
+        @endcan
         <ul class="nav navbar-nav align-items-center ms-auto">
             @can(['list-product-read'])
             <li class="nav-item">

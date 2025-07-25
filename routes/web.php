@@ -17,8 +17,13 @@ use App\Http\Controllers\TransactionHistoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+Route::get('/aboutme', function () {
+    return view('aboutme');
+});
+
 Route::get('/galery', function(){
     return view('galery');
 });

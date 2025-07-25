@@ -1,0 +1,45 @@
+.hero-section {
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-section img {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 2;
+    padding: 1.5rem;
+}
+
+.hero-content h2 {
+    color: #726161;
+    font-weight: bold;
+}
+
+.hero-content h1 {
+    color: #C64444;
+    font-weight: bold;
+}
+
+.hero-content p {
+    color: #726161;
+}
+
+.hero-content .btn-grad {
+    background: linear-gradient(to right, #C64444, #602121);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+}

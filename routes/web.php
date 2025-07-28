@@ -9,6 +9,7 @@ use App\Http\Controllers\PhotoSessionController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ListProductController;
+use App\Http\Controllers\MainControllers;
 use App\Http\Controllers\ProductDiscountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -16,9 +17,8 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionHistoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
+
+Route::get('/', [MainControllers::class, 'index'])->name('home');
 
 Route::get('/aboutme', function () {
     return view('aboutme');

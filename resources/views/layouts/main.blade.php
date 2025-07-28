@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/app-assets/css/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
     @stack('css')
 </head>
@@ -29,7 +30,6 @@
 <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
 
     @include('components.main.navbar')
-    <!-- <div class="app-content content "> -->
     <div>
         <div class="content-overlay"></div>
         <div class="content-wrapper container-xxl p-0">

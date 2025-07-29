@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <div class="col-md-3 text-center text-md-end">
-                <img src="{{ Storage::url('assets/logo.png') }}" alt="Arts by Sahara Logo" class="footer-logo img-fluid">
+                <img src="{{ Storage::url('assets/logo_eclips.jpg') }}" alt="Arts by Sahara Logo" class="footer-logo img-fluid">
             </div>
         </div>
     </div>

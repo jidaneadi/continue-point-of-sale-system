@@ -28,6 +28,8 @@ Route::get('/galery', function(){
     return view('galery');
 });
 
+Route::get('/product', [MainControllers::class, 'show'])->name('product');
+
 Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

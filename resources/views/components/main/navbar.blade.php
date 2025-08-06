@@ -11,6 +11,9 @@
                 <a href="{{ url('/galery') }}" class="nav-link">Galeri</a>
             </li>
             <li class="nav-item">
+                <a href="{{ url('/product') }}" class="nav-link">Paket</a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ url('/aboutme') }}" class="nav-link">Tentang Kami</a>
             </li>
         </ul>

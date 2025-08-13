@@ -10,7 +10,7 @@
 
 @section('content-body')
 <section>
-    <div class="row">
+    <div class="row" style="overflow-x: hidden;">
         <div class="w-100 home-section">
             <img src="{{ Storage::url('assets/image_home.png') }}" alt="Home Image">
             <div class="home-content">
@@ -20,11 +20,11 @@
                 <a href="{{ url('/galery') }}" class="btn btn-grad">Galery kami</a>
             </div>
         </div>
-        <div class="d-felx justify-content-around">
+        <div>
             <div class="d-flex flex-column justify-content-center align-items-center py-4 text-center">
                 <div>
-                    <h4 class="font-bold-brown m-0 p-0">Paket Layanan Kami</h4>
-                    <div class="divider m-0 p-0"></div>
+                    <h4 class="font-bold-brown pb-0 mb-0">Paket Layanan Kami</h4>
+                    <div class="divider pt-0 mt-0"></div>
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 p-1">
@@ -38,7 +38,7 @@
                                 alt="{{ $product->name }}">
                         </div>
                         <div class="card-body p-1">
-                            <h5 class="font-bold-red p-0 m-0">{{ $product->name }}</h5>
+                            <h5 class="font-bold-red ">{{ $product->name }}</h5>
                             <p class="card-text font-bold-brown">Rp. {{ number_format($product->price, 2, ',', '.') }}</p>
                         </div>
                     </div>

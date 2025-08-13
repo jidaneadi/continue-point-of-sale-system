@@ -32,7 +32,7 @@
     @include('components.main.navbar')
     <div>
         <div class="content-overlay"></div>
-        <div class="content-wrapper container-xxl p-0">
+        <div class="content-wrapper container-xxl">
             <div class="content-header">
                 @yield('content-header')
             </div>

@@ -7,7 +7,7 @@
 
 @section('content-body')
 <section>
-    <div class="row">
+    <div class="row" style="overflow-x: hidden;">
         <div class="w-100 aboutme-section">
             <img src="{{ Storage::url('assets/image_aboutme.jpg') }}" alt="Home Image">
             <div class="aboutme-content">
@@ -39,7 +39,7 @@
         </div>
         <div>
             <h1 class="font-bold-brown text-center pb-2">Layanan Kami</h1>
-            <div class="row row-cols-6 row-cols-sm-3 g-4 p-1 justify-content-center text-center">
+            <div class="row row-cols-6 row-cols-sm-3 p-1 justify-content-center text-center">
                 <div class="col-6 col-sm-3">
                     <div class="icon-photos">
                         <i data-feather="heart"></i>

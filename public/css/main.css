@@ -8,6 +8,11 @@
     font-weight: bold;
 }
 
+.font-bold-white {
+    color: #FFF6F6;
+    font-weight: bold;
+}
+
 .font-brown {
     color: #726161;
 }
@@ -24,7 +29,7 @@
   height: 1px;
   width: auto;
   background-color: #C64444;
-  margin: 20px 0;
+  margin: 20px 0px;
 }
 
 .img-home {

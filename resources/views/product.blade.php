@@ -71,7 +71,7 @@ default => 'Sort By'
                             <!-- <p class="card-text">{{ \Str::limit($product->description, 100) }}</p> -->
                             <p class="card-text font-bold-brown">Rp. {{ number_format($product->price, 2, ',', '.') }}</p>
                             <div class="d-flex flex-wrap gap-1 mt-2">
-                               <a href="{{ url('/login') }}"
+                               <a href="{{ url('/master/list') }}"
                                     class="btn btn-grad flex-fill text-center">
                                     Pesan Sekarang
                                 </a>

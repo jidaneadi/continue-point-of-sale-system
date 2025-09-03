@@ -8,11 +8,11 @@
 <div class="content-header-left col-md-9 col-12 mb-2">
     <div class="row breadcrumbs-top">
         <div class="col-12">
-            <h2 class="content-header-title float-start mb-0">{{ __('Products List') }}</h2>
+            <h2 class="content-header-title float-start font-brown mb-0">{{ __('Products List') }}</h2>
             <div class="breadcrumb-wrapper">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">{{ __('Master') }}</li>
-                    <li class="breadcrumb-item active">{{ __('Keranjang') }}</li>
+                    <li class="breadcrumb-item font-brown">{{ __('Master') }}</li>
+                    <li class="breadcrumb-item active font-brown">{{ __('Keranjang') }}</li>
                 </ol>
             </div>
         </div>
@@ -44,13 +44,13 @@
                                 style="width: 80px; height: 80px; object-fit: cover;">
                         </div>
                         <div class="flex-grow-1">
-                            <h6 class="mb-1">{{ $item->name_product }}</h6>
+                            <h6 class="mb-1 font-bold-red">{{ $item->name_product }}</h6>
                             <div class="small text-muted">Tanggal Foto: {{ $item->schedule }}</div>
                             <div class="small text-muted">Sesi Foto: {{ $item->start }} - {{ $item->end }}</div>
                         </div>
                         <div class="text-end">
                             <div class="mb-2">
-                                <p class="text-danger" style="font-weight: bold;">
+                                <p class="font-bold-red">
                                     Rp {{ number_format($item->price, 0, ',', '.') }}
                                 </p>
                             </div>
@@ -58,15 +58,15 @@
                                 data-price="{{ $item->price }}"
                                 data-index="{{ $index }}"
                                 style="width: 120px;">
-                                <button class="btn btn-outline-secondary btn-minus" type="button">-</button>
-                                <input type="text" class="form-control text-center input-jumlah" value="{{ $item->jumlah }}" readonly>
-                                <button class="btn btn-outline-secondary btn-plus" type="button">+</button>
+                                <button class="btn btn-outline-brown btn-minus" type="button">-</button>
+                                <input type="text" class="form-control form-border-brown text-center input-jumlah" value="{{ $item->jumlah }}" readonly>
+                                <button class="btn btn-outline-brown btn-plus" type="button">+</button>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span>Total harga:</span>
-                        <p id="totalHargaDisplay-{{ $index }}" class="mb-0" style="font-weight: bold;">
+                        <span class="font-brown">Total harga:</span>
+                        <p id="totalHargaDisplay-{{ $index }}" class="font-bold-brown mb-0">
                             Rp {{ number_format($item->price * $item->jumlah, 0, ',', '.') }}
                         </p>
                     </div>
@@ -78,30 +78,30 @@
         <div class="bg-white shadow-lg border-top py-3 position-fixed bottom-0 start-0 w-100" style="z-index: 1000;">
             <div class="container d-flex justify-content-between align-items-center">
                 <div>
-                    <input type="checkbox" id="selectAll" class="form-check-input me-1">
-                    <label for="selectAll">Pilih Semua</label>
-                    <button class="btn text-danger" id="btn-delete" style="font-weight: bold;">Hapus</button>
+                    <input type="checkbox" id="selectAll" class="form-check-input form-border-brown me-1">
+                    <label for="selectAll" class="font-brown">Pilih Semua</label>
+                    <button class="btn font-bold-red" id="btn-delete">Hapus</button>
                 </div>
                 <div class="dropdown">
-                    <button id="selectedPaymentMethodBtn" class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id="selectedPaymentMethodBtn" class="btn btn-outline-brown btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Select Payment Method
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a value="cash" class="dropdown-item">Cash</a></li>
-                        <li><a value="qris" class="dropdown-item">QRIS</a></li>
-                        <li><a value="gopay" class="dropdown-item">Gopay</a></li>
+                        <li><a value="cash" class="dropdown-item font-brown">Cash</a></li>
+                        <li><a value="qris" class="dropdown-item font-brown">QRIS</a></li>
+                        <li><a value="gopay" class="dropdown-item font-brown">Gopay</a></li>
                     </ul>
                 </div>
-                <div>
+                <div class="font-brown">
                     <strong>Total (<span id="totalProduk">0</span> produk):</strong>
                 </div>
                 <div class="d-flex align-items-center gap-3">
-                    <strong id="grandTotal" class="fs-5">Rp0</strong>
+                    <strong id="grandTotal" class="fs-5 font-brown">Rp0</strong>
                     <form method="POST" id="createTransaction" action="{{ route('list.store') }}">
                         @csrf
                         <div id="form-hidden-inputs"></div>
                         <input type="hidden" name="payment_method" id="input-payment-method" value="cash">
-                        <button class="btn btn-danger" id="btn-checkout" type="submit">Checkout</button>
+                        <button class="btn btn-grad" id="btn-checkout" type="submit">Checkout</button>
                     </form>
                 </div>
             </div>

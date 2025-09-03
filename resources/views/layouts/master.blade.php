@@ -21,11 +21,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/app-assets/css/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
     @stack('css')
 </head>
 <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
-    @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])    
+    @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
     @include('components.master.navigation')
 
@@ -40,7 +41,7 @@
             <div class="content-header">
                 @yield('content-header')
             </div>
-            
+
             <div class="content-body">
                 @yield('content-body')
             </div>
@@ -66,7 +67,7 @@
     <script src="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/app-assets/js/core/app.js') }}"></script>
     <script src="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/app-assets/js/scripts/pages/modal-add-role.js') }}"></script>
     <script src="{{ asset('vendor/vuexy-html-bootstrap5-admin-template/app-assets/js/scripts/pages/app-access-roles.js') }}"></script>
-    
+
     <script>
         $(window).on('load', function() {
             if (feather) {

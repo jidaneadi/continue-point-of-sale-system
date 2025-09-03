@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ListProductController;
 use App\Http\Controllers\MainControllers;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductDiscountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -24,13 +25,22 @@ Route::get('/aboutme', function () {
     return view('aboutme');
 });
 
-Route::get('/galery', function(){
+Route::get('/galery', function () {
     return view('galery');
 });
 
 Route::get('/product', [MainControllers::class, 'show'])->name('product');
 
 Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], function () {
+    Route::get('/', [MasterController::class, 'index'])->name('home');
+    Route::get('/aboutme', function () {
+        return view('master.aboutme');
+    });
+
+    Route::get('/galery', function () {
+        return view('master.galery');
+    });
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -67,10 +77,10 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], f
     Route::delete('/product/{id}/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::get('/product/data', [ProductController::class, 'data'])->name('product.data');
 
-    Route::get('/list', [ListProductController::class, 'index']) ->name('list.index');
+    Route::get('/list', [ListProductController::class, 'index'])->name('list.index');
     Route::post('/list/store', [ListProductController::class, 'store'])->name('list.store');
     Route::post('/list/store_detail', [ListProductController::class, 'store_detail'])->name('list.store_detail');
-    Route::get('/list/detail/{id}', [ListProductController::class, 'show_detail']) ->name('list.show_detail');
+    Route::get('/list/detail/{id}', [ListProductController::class, 'show_detail'])->name('list.show_detail');
     Route::get('/list/keranjang', [ListProductController::class, 'bucket'])->name('list.bucket');
     Route::post('/list/keranjang/store', [ListProductController::class, 'store_bucket'])->name('list.store_bucket');
     Route::delete('/list/keranjang/{id}', [ListProductController::class, 'store_delete'])->name('list.store_delete');
@@ -121,4 +131,4 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], f
     Route::get('/permission/data', [PermissionController::class, 'data'])->name('permission.data');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

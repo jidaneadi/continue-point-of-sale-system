@@ -22,11 +22,11 @@ default => 'Sort By'
 <div class="content-header-left col-md-9 col-12 mb-2">
     <div class="row breadcrumbs-top">
         <div class="col-12">
-            <h2 class="content-header-title float-start mb-0">{{ __('Products List') }}</h2>
+            <h2 class="content-header-title font-bold-brown float-start mb-0">{{ __('Products List') }}</h2>
             <div class="breadcrumb-wrapper">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">{{ __('Master') }}</li>
-                    <li class="breadcrumb-item active">{{ __('Products') }}</li>
+                    <li class="breadcrumb-item font-brown">{{ __('Master') }}</li>
+                    <li class="breadcrumb-item font-brown">{{ __('Products') }}</li>
                 </ol>
             </div>
         </div>
@@ -38,21 +38,21 @@ default => 'Sort By'
 <section>
     <div class="row">
         <div class="d-flex align-items-center justify-content-between flex-nowrap my-2" style="gap: 1rem; flex-wrap: nowrap;">
-            <h4 class="mb-0 flex-shrink-0">{{ $title }}</h4>
+            <h4 class="mb-0 font-brown flex-shrink-0">{{ $title }}</h4>
             <div class="d-flex gap-2 flex-shrink-0">
                 <div class="dropdown">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i data-feather="filter" class="me-1"></i> {{ $selectCategory }}
+                    <button class="btn btn-outline-brown btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i data-feather="filter" class="me-1 font-brown"></i> {{ $selectCategory }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['category' => null]) }}">
+                            <a class="dropdown-item font-brown" href="{{ request()->fullUrlWithQuery(['category' => null]) }}">
                                 Semua Kategori
                             </a>
                         </li>
                         @foreach($kategories as $kategori)
                         <li>
-                            <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['category' => $kategori->id]) }}">
+                            <a class="dropdown-item font-brown" href="{{ request()->fullUrlWithQuery(['category' => $kategori->id]) }}">
                                 {{ $kategori->name }}
                             </a>
                         </li>
@@ -60,13 +60,13 @@ default => 'Sort By'
                     </ul>
                 </div>
                 <div class="dropdown">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i data-feather="arrow-down" class="me-1"></i> {{ $selectOrder }}
+                    <button class="btn btn-outline-brown btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i data-feather="arrow-down" class="me-1 font-brown"></i> {{ $selectOrder }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['order' => 'kategori']) }}">Kategori</a></li>
-                        <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['order' => 'termurah']) }}">Termurah</a></li>
-                        <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['order' => 'termahal']) }}">Termahal</a></li>
+                        <li><a class="dropdown-item font-brown" href="{{ request()->fullUrlWithQuery(['order' => 'kategori']) }}">Kategori</a></li>
+                        <li><a class="dropdown-item font-brown" href="{{ request()->fullUrlWithQuery(['order' => 'termurah']) }}">Termurah</a></li>
+                        <li><a class="dropdown-item font-brown" href="{{ request()->fullUrlWithQuery(['order' => 'termahal']) }}">Termahal</a></li>
                     </ul>
                 </div>
             </div>
@@ -83,15 +83,15 @@ default => 'Sort By'
                                 alt="{{ $product->name }}">
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ $product->name }}</h5>
+                            <h5 class="card-title font-bold-red" style="font-weight: bold;">{{ $product->name }}</h5>
                             <p class="card-text">{{ \Str::limit($product->description, 100) }}</p>
-                            <p class="card-text fw-bold text-primary">Rp. {{ number_format($product->price, 2, ',', '.') }}</p>
+                            <p class="card-text font-bold-brown">Rp. {{ number_format($product->price, 2, ',', '.') }}</p>
                             <div class="d-flex flex-wrap gap-1 mt-2">
                                 <a href="{{ url('/master/list/detail/' . $product->id) }}"
-                                    class="btn btn-outline-primary btn-sm flex-fill text-center">
+                                    class="btn btn-grad-grey text-white btn-sm flex-fill text-center">
                                     Detail
                                 </a>
-                                <a class="btn btn-outline-success btn-sm flex-fill text-center btn-keranjang"
+                                <a class="btn btn-grad btn-sm flex-fill text-center text-white btn-keranjang"
                                     data-bs-toggle="modal"
                                     data-bs-target="#keranjangModal"
                                     data-id="{{ $product->id }}"
@@ -113,7 +113,7 @@ default => 'Sort By'
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalProductName">Produk Name</h1>
+                    <h1 class="modal-title fs-5 font-bold-brown" id="modalProductName">Produk Name</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -125,8 +125,8 @@ default => 'Sort By'
 
                         <div class="row">
                             <div class="col-7">
-                                <label class="form-label">{{ __('Pilih Tanggal*') }}</label>
-                                <input type="date" name="photo_date" class="form-control" required>
+                                <label class="form-label font-brown">{{ __('Pilih Tanggal*') }}</label>
+                                <input type="date" name="photo_date" class="form-control form-border-brown" required>
                             </div>
                             @error('photo_date')
                             <div class="invalid-feedback">
@@ -134,39 +134,39 @@ default => 'Sort By'
                             </div>
                             @enderror
                             <div class="col-5">
-                                <label class="form-label">{{ __('Jumlah*') }}</label>
+                                <label class="form-label font-brown">{{ __('Jumlah*') }}</label>
                                 <div class="d-flex">
-                                    <button type="button" class="btn btn-outline-secondary" id="minusBtn">-</button>
-                                    <input type="text" class="form-control text-center mx-1" name="quantity" id="counterValue" value="1" readonly>
-                                    <button type="button" class="btn btn-outline-secondary" id="plusBtn">+</button>
+                                    <button type="button" class="btn btn-outline-brown" id="minusBtn">-</button>
+                                    <input type="text" class="form-control form-border-brown text-center mx-1" name="quantity" id="counterValue" value="1" readonly>
+                                    <button type="button" class="btn btn-outline-brown" id="plusBtn">+</button>
                                 </div>
                             </div>
                         </div>
-                        <label class="form-label mt-2">{{ __('Sesi Foto*') }}</label>
+                        <label class="form-label mt-2 font-brown">{{ __('Sesi Foto*') }}</label>
                         <div class="row">
                             @foreach ($sessionPhoto as $sesi)
                             <div class="col-3">
-                                <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}">
+                                <a href="#" class="btn btn-outline-brown ml-1 my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}">
                                     {{ $sesi->start_time }}
                                 </a>
                             </div>
                             @endforeach
                             @foreach ($sessionOutdoor as $outdoor)
                             <div class="col-5">
-                                <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $outdoor->start_time }}" data-id="{{ $outdoor->id }}">
+                                <a href="#" class="btn btn-outline-brown ml-1 my-1 sesi-btn" data-time="{{ $outdoor->start_time }}" data-id="{{ $outdoor->id }}">
                                     {{ $outdoor->name }}
                                 </a>
                             </div>
                             @endforeach
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-2">
-                            <label class="form-label mb-0">Total Harga</label>
+                            <label class="form-label mb-0 font-brown">Total Harga</label>
                             <!-- <p id="hargaProduk" type="hidden" class="text-muted small">Harga: Rp. 0</p> -->
-                            <p id="totalHargaDisplay" class="mb-0 fw-bold text-end">Rp. 0 x 0 = Rp. 0</p>
+                            <p id="totalHargaDisplay" class="mb-0 font-brown text-end">Rp. 0 x 0 = Rp. 0</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary"><i data-feather="plus"></i> Masukkan Keranjang</button>
+                            <button type="button" class="btn btn-grey" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-grad"><i data-feather="plus"></i> Masukkan Keranjang</button>
                         </div>
                     </form>
                 </div>

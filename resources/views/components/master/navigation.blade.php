@@ -12,28 +12,31 @@
 
         @can(['list-product-read'])
         <ul class="nav navbar-nav align-items-end">
-                <li class="nav-item">
-                    <a href="" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Galeri</a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Tentang Kami</a>
-                </li>
+            <li class="nav-item">
+                <a href="{{ url('/master/') }}" class="nav-link font-bold-brown {{ request()->is('master') ? 'active' : '' }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/master/galery') }}" class="nav-link font-bold-brown {{ request()->is('master/galery') ? 'active' : '' }}">Galeri</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/master/list') }}" class="nav-link font-bold-brown {{ request()->is('master/list') ? 'active' : '' }}">Shopping</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/master/aboutme') }}" class="nav-link font-bold-brown {{ request()->is('master/aboutme') ? 'active' : '' }}">Tentang Kami</a>
+            </li>
         </ul>
         @endcan
         <ul class="nav navbar-nav align-items-center ms-auto">
             @can(['list-product-read'])
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('master/list/keranjang')}}">
-                    <i class="ficon" data-feather="shopping-cart"></i>
+                    <i class="ficon icon-nav" data-feather="shopping-cart"></i>
                 </a>
             </li>
             @endcan
             <li class="nav-item d-none d-lg-block">
                 <a class="nav-link nav-link-style">
-                    <i class="ficon" data-feather="moon"></i>
+                    <i class="ficon icon-nav" data-feather="moon"></i>
                 </a>
             </li>
 

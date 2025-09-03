@@ -26,10 +26,10 @@
 }
 
 .divider {
-  height: 1px;
-  width: auto;
-  background-color: #C64444;
-  margin: 20px 0px;
+    height: 1px;
+    width: auto;
+    background-color: #C64444;
+    margin: 20px 0px;
 }
 
 .img-home {
@@ -43,6 +43,80 @@
     color: white;
     border: none;
     padding: 10px 20px;
+}
+
+.btn-grad-grey {
+    background: linear-gradient(to right, #cdcdcd, #726161);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+}
+
+.btn-grey {
+    background: #9c9a9a;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.btn-brown {
+    background: #726161;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.btn-red {
+    background: #C64444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+}
+
+.btn-outline-brown {
+    background-color: transparent;
+    color: #726161;
+    border: 1px solid #726161;
+}
+
+.btn-outline-brown.active {
+    background-color: #726161;
+    color: #fff;
+    border-color: #726161;
+}
+
+.btn-outline-red {
+    background-color: transparent;
+    color: #C64444;
+    border: 1px solid #C64444;
+}
+
+.form-border-brown {
+    background-color: transparent;
+    color: #726161;
+    border: 1px solid #726161;
+}
+
+.main-menu .navigation > li.active > a {
+    background: #C64444 !important;
+    color: #fff !important;
+    border-radius: 6px;
+    box-shadow: none !important;
+}
+
+.main-menu .navigation > li.active > a i,
+.main-menu .navigation > li.active > a span {
+    color: #fff !important;
+}
+
+.dropdown-item:active,
+.dropdown-item.active,
+.dropdown-item:focus,
+.dropdown-item:hover {
+    background-color: #C64444 !important;
+    color: white !important;
+}
+
+.icon-nav:hover {
+    color: #C64444 !important;
 }
 
 .home-section {
@@ -107,11 +181,17 @@
     height: auto;
 }
 
+.navbar-nav .nav-link.active {
+    color: #C64444 !important;
+    border-bottom: 2px solid #C64444;
+}
+
 .navbar-logo {
     max-width: 60px;
     border-radius: 50%;
     height: auto;
 }
+
 .aboutme-section {
     height: 500px;
     overflow: hidden;
@@ -157,14 +237,15 @@
 }
 
 .list-unstyle {
-  list-style: none;
-  padding: 0%;
+    list-style: none;
+    padding: 0%;
 }
 
 .icon {
     stroke-width: 3;
     color: #726161;
 }
+
 .icon-photos {
     background-color: #C64444;
     border-radius: 180px;
@@ -187,6 +268,7 @@
 .card-reason {
     background-color: #FFF6F6;
 }
+
 .card-reason svg {
     width: 30px;
     height: 30px;

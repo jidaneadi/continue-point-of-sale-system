@@ -51,6 +51,6 @@ class User extends Authenticatable
 
     public function photographerProfile()
     {
-        return $this->hasOne(Photographer::class);
+        return $this->hasOne(Photographer::class, 'id');
     }
 }

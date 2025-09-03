@@ -35,7 +35,7 @@
             </li>
             @endcanany
             @can(['list-product-read'])
-            <li class="{{ Request::routeIs('list-product-read') ? 'active' : '' }} nav-item">
+            <li class="{{ Request::routeIs('list.index') ? 'active' : '' }} nav-item">
                 <a class="d-flex align-items-center" href="{{ route('list.index') }}">
                     <i data-feather="shopping-bag"></i>
                     <span class="menu-title text-truncate" data-i18n="Shop">{{ __('Shop') }}</span>
@@ -49,7 +49,7 @@
             </li>
             @endcanany
             @can(['transaction-history-show'])
-            <li class="{{ Request::routeIs('transaction-history-show') ? 'active' : '' }} nav-item">
+            <li class="{{ Request::routeIs('transaction-history.index') ? 'active' : '' }} nav-item">
                 <a class="d-flex align-items-center" href="{{ route('transaction-history.index') }}">
                     <i data-feather="list"></i>
                     <span class="menu-title text-truncate" data-i18n="Transaction">{{ __('Transaction') }}</span>

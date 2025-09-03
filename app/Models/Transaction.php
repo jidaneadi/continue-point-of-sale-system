@@ -11,6 +11,7 @@ class Transaction extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        'id',
         'customer_id',
         'total_price',
         'payment_status',
@@ -29,6 +30,6 @@ class Transaction extends Model
 
     public function details()
     {
-        return $this->hasMany(TransactionDetail::class);
+        return $this->hasMany(TransactionDetail::class, 'transaction_id');
     }
 }

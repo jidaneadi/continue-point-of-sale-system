@@ -8,11 +8,11 @@
 <div class="content-header-left col-md-9 col-12 mb-2">
     <div class="row breadcrumbs-top">
         <div class="col-12">
-            <h2 class="content-header-title float-start mb-0">{{ __('Products List') }}</h2>
+            <h2 class="content-header-title float-start font-brown mb-0">{{ __('Products List') }}</h2>
             <div class="breadcrumb-wrapper">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">{{ __('Master') }}</li>
-                    <li class="breadcrumb-item active">{{ __('Detail') }}</li>
+                    <li class="breadcrumb-item font-brown">{{ __('Master') }}</li>
+                    <li class="breadcrumb-item active font-brown">{{ __('Detail') }}</li>
                 </ol>
             </div>
         </div>
@@ -35,36 +35,36 @@
                 <input type="hidden" name="quantity" id="quantityValue" value="1">
                 <input type="hidden" name="photo_date" id="photoDateValue">
 
-                <h2>{{ $data->name }}</h2>
-                <h4>{{ $data->price }}</h4>
+                <h2 class="font-bold-red">{{ $data->name }}</h2>
+                <h4 class="font-bold-brown">Rp. {{ number_format($data->price, 2, ',', '.') }}</h4>
 
                 <div class="row">
                     <div class="col-7">
-                        <label class="form-label">{{ __('Pilih Tanggal*') }}</label>
-                        <input type="date" name="photo_date_display" class="form-control" required>
+                        <label class="form-label font-brown">{{ __('Pilih Tanggal*') }}</label>
+                        <input type="date" name="photo_date_display" class="form-control form-border-brown" required>
                     </div>
                     <div class="col-5">
-                        <label class="form-label">{{ __('Jumlah*') }}</label>
+                        <label class="form-label font-brown">{{ __('Jumlah*') }}</label>
                         <div class="d-flex">
-                            <button type="button" class="btn btn-outline-secondary" id="minusBtn">-</button>
-                            <input type="text" class="form-control text-center mx-1" id="counterValue" value="1" readonly>
-                            <button type="button" class="btn btn-outline-secondary" id="plusBtn">+</button>
+                            <button type="button" class="btn btn-outline-brown" id="minusBtn">-</button>
+                            <input type="text" class="form-control form-border-brown text-center mx-1" id="counterValue" value="1" readonly>
+                            <button type="button" class="btn btn-outline-brown" id="plusBtn">+</button>
                         </div>
                     </div>
                 </div>
 
-                <label for="sesiFoto" class="form-label mt-2">Sesi Foto</label>
+                <label for="sesiFoto" class="form-label font-brown mt-2">Sesi Foto</label>
                 <div class="row">
                     @foreach ($sessionPhoto as $sesi)
                     <div class="col-3">
-                        <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}">
+                        <a href="#" class="btn btn-outline-brown ml-1 my-1 sesi-btn" data-time="{{ $sesi->start_time }}" data-id="{{ $sesi->id }}">
                             {{ $sesi->start_time }}
                         </a>
                     </div>
                     @endforeach
                     @foreach ($sessionOutdoor as $outdoor)
                     <div class="col-4">
-                        <a href="#" class="btn btn-outline-primary ml-1 my-1 sesi-btn" data-time="{{ $outdoor->start_time }}" data-id="{{ $outdoor->id }}">
+                        <a href="#" class="btn btn-outline-brown ml-1 my-1 sesi-btn" data-time="{{ $outdoor->start_time }}" data-id="{{ $outdoor->id }}">
                             {{ $outdoor->name }}
                         </a>
                     </div>
@@ -72,9 +72,9 @@
                 </div>
 
                 <div class="row mb-1 mt-2">
-                    <label class="col-sm-6 form-label">{{ __('Pilih Pembayaran* :') }}</label>
+                    <label class="col-sm-6 form-label font-brown">{{ __('Pilih Pembayaran* :') }}</label>
                     <div class="col-sm-6">
-                        <select name="payment_method" id="payment_method" class="form-control @error('payment_method') is-invalid @enderror" required>
+                        <select name="payment_method" id="payment_method" class="form-control form-border-brown @error('payment_method') is-invalid @enderror" required>
                             <option value="" disabled selected>Select Payment Method</option>
                             <option value="cash">Cash</option>
                             <option value="qris">QRIS</option>
@@ -91,13 +91,13 @@
 
             {{-- Tombol di luar form --}}
             <div class="mt-2 d-flex gap-2">
-                <button type="button" class="btn btn-primary" id="btnPesan">Pesan Sekarang</button>
-                <button type="button" class="btn btn-secondary" id="btnKeranjang">Keranjang</button>
+                <button type="button" class="btn btn-grad" id="btnPesan">Pesan Sekarang</button>
+                <button type="button" class="btn btn-outline-red" id="btnKeranjang">Keranjang</button>
             </div>
         </div>
 
         <div class="col-12 my-2">
-            <h2>Detail Paket</h2>
+            <h2 class="font-bold-brown">Detail Paket</h2>
             <p>{{ $data->description }}</p>
         </div>
     </div>

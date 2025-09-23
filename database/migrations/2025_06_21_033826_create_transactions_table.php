@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('customer_id');
             $table->decimal('total_price', 10, 2);
-            $table->enum('payment_status', ['pending', 'paid', 'unpaid']);
+            $table->enum('payment_status', ['pending', 'paid', 'unpaid', 'repayment']);
             $table->enum('payment_method', ['cash', 'qris', 'gopay']);
             $table->dateTime('paid_at')->nullable();
             $table->timestamps();

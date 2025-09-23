@@ -13,7 +13,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item font-brown">{{ __('Master') }}</li>
                     <li class="breadcrumb-item font-brown">{{ __('Transaction History') }}</li>
-                    <li class="breadcrumb-item font-brown">{{ __('Pending') }}</li>
+                    <li class="breadcrumb-item font-brown">{{ __('Unpaid') }}</li>
                 </ol>
             </div>
         </div>

@@ -86,7 +86,6 @@ class UsersSeeder extends Seeder
 
             return $user;
         }
-        createPhotographer('Tegar', 'tegar@gmail.com', '12345678', 'photographer', 1);
         createUser('Owner', 'owner@artsbysahara.com', 'AdminAdmin', 'owner');
         createCustomer('Intan', 'intann@gmail.com', '12345678', 'customer');
         createCustomer('Dea', 'dea@gmail.com', '12345678', 'customer');

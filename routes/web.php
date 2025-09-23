@@ -85,7 +85,9 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], f
     Route::post('/list/keranjang/store', [ListProductController::class, 'store_bucket'])->name('list.store_bucket');
     Route::delete('/list/keranjang/{id}', [ListProductController::class, 'store_delete'])->name('list.store_delete');
 
-    Route::get('/transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
+    Route::get('/transaction-history/paid', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
+    Route::get('/transaction-history/pending', [TransactionHistoryController::class, 'pending'])->name('transaction-history.pending');
+    Route::get('/transaction-history/unpaid', [TransactionHistoryController::class, 'unpaid'])->name('transaction-history.unpaid');
 
     Route::get('/discount', [ProductDiscountController::class, 'index'])->name('discount.index');
     Route::get('/discount/create', [ProductDiscountController::class, 'create'])->name('discount.create');

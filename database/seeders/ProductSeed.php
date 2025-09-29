@@ -197,25 +197,25 @@ class ProductSeed extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            foreach ($photoSessions as $ps) {
-                dd("ID UUI Product : ",$createProducts->id ," ID Category Product For Create Products : ",$createProducts->product_category_id, " ID Category Product : 4-",$productCategories[3]->id," - 5-", $productCategories[4]->id);
-                if ($createProducts->product_category_id == $productCategories[3]->id  || $createProducts->product_category_id == $productCategories[4]->id) {
-                    ProductHasPhotoSession::create([
-                        'product_id' => $createProducts->id,
-                        'photo_session_id' => $ps->id,
-                    ]);
-                }
-                if (($createProducts->product_category_id != $productCategories[1] || $createProducts->product_category_id == $productCategories[3]->id || $createProducts->product_category_id == $productCategories[4]->id) && $ps->name != 'Outdoor Session 01') {
-                    ProductHasPhotoSession::create([
-                        'product_id' => $createProducts->id,
-                        'photo_session_id' => $ps->id,
-                    ]);
-                }
-                ProductHasPhotoSession::create([
-                    'product_id' => $createProducts->id,
-                    'photo_session_id' => $ps->id,
-                ]);
-            }
+            // foreach ($photoSessions as $ps) {
+            //     dd("ID UUI Product : ",$createProducts->id ," ID Category Product For Create Products : ",$createProducts->product_category_id, " ID Category Product : 4-",$productCategories[3]->id," - 5-", $productCategories[4]->id);
+            //     if ($createProducts->product_category_id == $productCategories[3]->id  || $createProducts->product_category_id == $productCategories[4]->id) {
+            //         ProductHasPhotoSession::create([
+            //             'product_id' => $createProducts->id,
+            //             'photo_session_id' => $ps->id,
+            //         ]);
+            //     }
+            //     if (($createProducts->product_category_id != $productCategories[1] || $createProducts->product_category_id == $productCategories[3]->id || $createProducts->product_category_id == $productCategories[4]->id) && $ps->name != 'Outdoor Session 01') {
+            //         ProductHasPhotoSession::create([
+            //             'product_id' => $createProducts->id,
+            //             'photo_session_id' => $ps->id,
+            //         ]);
+            //     }
+            //     ProductHasPhotoSession::create([
+            //         'product_id' => $createProducts->id,
+            //         'photo_session_id' => $ps->id,
+            //     ]);
+            // }
         }
     }
 }

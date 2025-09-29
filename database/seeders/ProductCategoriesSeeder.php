@@ -18,7 +18,7 @@ class ProductCategoriesSeeder extends Seeder
             ['code' => 'PC-05', 'name' => 'Martenity or New Born'],
             ['code' => 'PC-06', 'name' => 'Rental Studio'],
         ];
-        
+
         foreach ($productCategories as $productCategory) {
             ProductCategory::firstOrCreate(['code' => $productCategory['code'], 'name' => $productCategory['name']]);
         }

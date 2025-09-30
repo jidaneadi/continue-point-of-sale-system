@@ -15,10 +15,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('no_hp')->unique();
-            $table->string('tmpt_lahir');
-            $table->date('tgl_lahir');
-            $table->string('alamat');
+            $table->string('no_hp')->unique()->nullable();
+            $table->string('tmpt_lahir')->nullable();
+            $table->date('tgl_lahir')->nullable();
+            $table->string('alamat')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -18,7 +18,11 @@ return new class extends Migration
             $table->string('no_hp')->unique()->nullable();
             $table->string('tmpt_lahir')->nullable();
             $table->date('tgl_lahir')->nullable();
-            $table->string('alamat')->nullable();
+            $table->string('provinsi')->nullable();
+            $table->string('kota')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('kelurahan')->nullable();
+            $table->string('alamat_lengkap')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

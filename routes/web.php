@@ -88,6 +88,7 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'verified']], f
     Route::get('/transaction-history/paid', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
     Route::get('/transaction-history/pending', [TransactionHistoryController::class, 'pending'])->name('transaction-history.pending');
     Route::get('/transaction-history/unpaid', [TransactionHistoryController::class, 'unpaid'])->name('transaction-history.unpaid');
+    Route::get('/transaction-history/repayment', [TransactionHistoryController::class, 'repayment'])->name('transaction-history.repayment');
 
     Route::get('/discount', [ProductDiscountController::class, 'index'])->name('discount.index');
     Route::get('/discount/create', [ProductDiscountController::class, 'create'])->name('discount.create');
